@@ -1,27 +1,16 @@
 import numpy as np
-from sklearn import datasets
-from sklearn import svm
-from sklearn.metrics import recall_score
 from sklearn.model_selection import cross_val_score, cross_validate
-
+from sklearn.neighbors import KNeighborsClassifier
 trainingFile = np.genfromtxt("irisTraining.txt")
 X_train = trainingFile[:, -1]
 y_train = trainingFile[:, -1]
 
-fit = svm.SVC(kernel='linear', C=1).fit(X_train, y_train)
-# print(fit)
-
-cross_validation_score = cross_val_score(fit, X_train, y_train, cv=10)
-print(cross_validation_score)
-
-cross_validation_mean_score = np.mean(cross_validation_score)
-print(cross_validation_mean_score)
+knn_classifier = KNeighborsClassifier(n_neighbors=3)
+knn_classifier.fit(X_train, y_train)
+cross_validation = cross_validate(knn_classifier, X_train, y_train, cv=10)
 
 # output file
-outfile = open("crossvalidatio.txt", "w")
-outfile.write("Cross Validation Score \n")
+outfile = open("crossvalidation.txt", "w")
+outfile.write("Cross Validation \n")
 outfile.write(" \n")
-outfile.write(str(cross_validation_score))
-outfile.write(" \n")
-outfile.write("Cross Validation Mean Score \n")
-outfile.write(str(cross_validation_mean_score))
+outfile.close()
